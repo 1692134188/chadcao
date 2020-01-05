@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h6>添加学生</h6>
+<form method="post" action="">
+    {% csrf_token %}
+    <input id="stuname" name="name" placeholder="请输入姓名"/>
+    <input id="stuage" name="age" placeholder="请输入年龄"/>
+    <input type="submit" content="提交">
+</form>
+</body>
+</html>

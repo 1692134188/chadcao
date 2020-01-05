@@ -1,0 +1,10 @@
+ChadCao/__pycache__/
+Chad/__pycache__/
+ChadCao/migrations/__pycache__/
+venv/Lib/site-packages/asgiref/__pycache__/
+venv/Lib/site-packages/django/__pycache__/
+venv/Lib/site-packages/django/apps/__pycache__/
+venv/Lib/site-packages/django/bin/
+venv/Lib/site-packages/django/contrib/admin/__pycache__/
+__pycache__
+.log
