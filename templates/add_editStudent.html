@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h4>{{ oper }}学生</h4>
+<form method="post" action="" novalidate>
+    {% csrf_token %}
+    {% for foo in student %}
+        <p>{{ foo.field.label }}{{ foo.as_text }}{{ foo.errors.0 }}</p>
+    {% endfor %}
+    <input type="submit" content="提交">
+</form>
+</body>
+</html>
