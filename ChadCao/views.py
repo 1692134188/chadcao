@@ -1,7 +1,10 @@
 from django.shortcuts import render, HttpResponse, redirect
-from ChadCao.models import Student
+from ChadCao.models import Student, User
 from ChadCao.DjangoForms.StudentForm import StudentForm
+from ChadCao.ModelForms.RegForm import RegForm
 from django.forms.utils import ErrorDict
+from django.views.decorators.csrf import ensure_csrf_cookie
+from django.http import JsonResponse
 
 
 # Create your views here.
@@ -34,7 +37,6 @@ def editStudent(request, stuID):
     if request.method == "GET":
         student = StudentForm(stuData)
         if len(dict(student.errors)) == 1 and student.has_error("name", "NameDuplicate"):
-
             student.errors.clear()
         return render(request, "add_editStudent.html", locals())
     else:
@@ -43,8 +45,8 @@ def editStudent(request, stuID):
             Student.objects.filter(id=stuID).update(**student.cleaned_data)
             return redirect('/index')
         else:
-            print( str(stuData.get("id")) == str(stuID) , stuData.get("name") == request.POST.get("name"))
-            if len(dict(student.errors)) == 1 and student.has_error("name","NameDuplicate"):
+            print(str(stuData.get("id")) == str(stuID), stuData.get("name") == request.POST.get("name"))
+            if len(dict(student.errors)) == 1 and student.has_error("name", "NameDuplicate"):
                 if str(stuData.get("id")) == str(stuID) and stuData.get("name") == request.POST.get("name"):
                     Student.objects.filter(id=stuID).update(**student.cleaned_data)
                     return redirect('/index')
@@ -54,3 +56,24 @@ def editStudent(request, stuID):
 def delStudent(request, stuID):
     student = Student.objects.filter(id=stuID).update(status=False);
     return redirect('/index')
+
+
+# 注册
+def reg(request):
+    form_obj = RegForm()
+    if request.method == 'POST':
+        form_obj = RegForm(request.POST)
+        res = {"Code": "", "err_msg": ""}
+        if form_obj.is_valid():
+            # 创建新用户
+            form_obj.cleaned_data.pop('re_password')
+            print(111)
+            print(form_obj.cleaned_data)
+            User.objects.create(**form_obj.cleaned_data)
+            res["Code"] = 200
+        else:
+            res["err_msg"] = form_obj.errors
+        return JsonResponse(res)
+    return render(request, 'reg.html', {'form_obj': form_obj})
+
+

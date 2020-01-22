@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="content-Type" charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Title</title>
+</head>
+<body>
+
+{#{% csrf_token %}#}
+
+<button id="b1">csrf测试</button>
+<button id="b2">csrf测试2</button>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="/static/js/ajax_setup.js"></script>
+<script>
+
+
+    $('#b1').click(function () {
+        $.ajax({
+            url: '/csrf_test/',
+            type: 'post',
+            {#headers: {"X-CSRFToken": $('[name="csrfmiddlewaretoken"]').val()},#}
+            data: {
+                name: 'alex',
+                age: '73',
+
+            },
+            success: function (res) {
+                console.log(res);
+
+
+            }
+        })
+    });
+
+
+    $('#b2').click(function () {
+        $.ajax({
+            url: '/csrf_test/',
+            type: 'post',
+
+            data: {},
+            success: function (res) {
+                console.log(res);
+
+
+            }
+        })
+    });
+
+</script>
+
+
+</body>
+</html>

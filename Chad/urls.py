@@ -31,4 +31,6 @@ urlpatterns = [
     url(r'^addStudent/$', views.addStudent, name="addStudent"),  # 添加学生
     url(r'^editStudent/(\d+)$', views.editStudent, name="editStudent"),  # 编辑学生
     url(r'^delStudent/(\d+)$', views.delStudent, name="delStudent"),  # 删除学生
+
+    url(r'^reg/', views.reg),# 用户注册
 ]

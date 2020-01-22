@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="content-Type" charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Title</title>
+    <link rel="stylesheet" href="{% static 'plugins/bootstrap-3.3.7/css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/reg.css' %}">
+
+</head>
+<body>
+
+<div class="container">
+    <div class="row" style="margin-top: 70px">
+        <div class="col-sm-6 col-sm-offset-3">
+            <form class="form-horizontal" method="post" id="regForm" action="" novalidate>
+                {% csrf_token %}
+                {#  igcrm 中写的 循环取值展示#}
+                {% for field in form_obj %}
+                    <div class="form-group">
+                        <label for="">{{ field.label }}</label>
+                        {{ field }}
+                        <span class="error pull-right">{{ field.errors.0 }}</span>
+                        {#  显示错误信息#}
+                    </div>
+                {% endfor %}
+
+
+                <input type="button" class="btn btn-primary pull-left" id="reg_btn" value="注册">
+            </form>
+        </div>
+    </div>
+</div>
+<script src="{% static 'js/jQuery.js' %}"></script>
+<script src="{% static 'js/ajax_setup.js' %}"></script>
+<script>
+    $("#reg_btn").click(function () {
+        {#alert("绑定成功");#}
+        $.ajax({
+            url: "/reg/",
+            type: "post",
+            data: $('#regForm').serialize(),
+            success: function (res) {
+                console.log(res);
+                if (res.Code=="200") {
+                    //注册成功
+                    alert("注册成功");
+                    location.href = "/index/"
+                } else {
+                    //清除错误
+                    $(".error").html("");
+                    $(".form-group").removeClass("has-error");
+                    //展示新错误
+                    $.each(res.err_msg, function (i, j) {
+                        console.log(i, j);
+                        $("#id_" + i).next().html(j[0]).css("color", "red").parent().addClass("has-error")
+                    })
+                }
+            },
+        })
+
+    })
+
+</script>
+
+
+</body>
+</html>
