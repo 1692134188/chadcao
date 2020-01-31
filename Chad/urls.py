@@ -33,4 +33,6 @@ urlpatterns = [
     url(r'^delStudent/(\d+)$', views.delStudent, name="delStudent"),  # 删除学生
 
     url(r'^reg/', views.reg),# 用户注册
+    url(r'^checkUserName/', views.checkUserName),  # 用户注册
+
 ]

@@ -37,14 +37,13 @@
 <script src="{% static 'js/ajax_setup.js' %}"></script>
 <script>
     $("#reg_btn").click(function () {
-        {#alert("绑定成功");#}
         $.ajax({
             url: "/reg/",
             type: "post",
             data: $('#regForm').serialize(),
             success: function (res) {
                 console.log(res);
-                if (res.Code=="200") {
+                if (res.Code == "200") {
                     //注册成功
                     alert("注册成功");
                     location.href = "/index/"
@@ -62,7 +61,22 @@
         })
 
     })
+    $("#id_username").blur(function () {
+        $.ajax({
+            url: "/checkUserName/",
+            type: "get",
+            data: {'username': $('#id_username').val()},
+            success: function (res) {
+                console.log(res)
+                if (res.ret == 1) {
+                    $('#id_username').next().html('用户名存在').css("color", "red").parent().addClass("has-error")
+                }
 
+            },
+        })
+
+
+    });
 </script>
 
 

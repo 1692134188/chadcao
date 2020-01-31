@@ -77,3 +77,12 @@ def reg(request):
     return render(request, 'reg.html', {'form_obj': form_obj})
 
 
+# 检查用户名是否存在
+def checkUserName(request):
+    username = request.GET.get('username')
+    # 如果用户存在
+    print(username)
+    if  User.objects.filter(username=username).values().first():
+        return JsonResponse({'ret': 1})
+    else:
+        return JsonResponse({'ret': 0})
